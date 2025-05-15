@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --fontPrimary: "Poppins", sans-serif;
+  --fontSecondary: "Montserrat", sans-serif;
+
+  --fontWeight-100: 100;
+  --fontWeight-200: 200;
+  --fontWeight-400: 400;
+  --fontWeight-500: 500;
+  --fontWeight-600: 600;
+  --fontWeight-700: 700;
+  --fontWeight-800: 800;
+  --fontWeight-900: 900;
+
+  --font-small: 14px;
+  --font-medium: 16px;
+  --font-large: 20px;
+  --font-heading: 40px;
+
+  --h1-title: 50px;
+  --h2-subtitle: 30px;
+  --h3-content: 25px;
+
+  --fontColor-Black: #1c1c1c;
+
+  /* RED COLOR */
+  --red-1: #db5a5a;
+  --red-2: #e83030;
+  --red-3: #ff0000;
+  --red-4: #cf1717;
+  --red-5: #a92525;
+
+  /* BLUE COLOR */
+  --blue-1: #30aae8;
+  --blue-2: #00a9ff;
+  --blue-3: #1791cf;
+  --blue-4: #257da9;
+  --blue-5: #2d6c8d;
+  --blue-6: #315f76;
+  --blue-7: #335364;
+  --blue-8: #324a56;
+}
+
+body {
+  font-family: var(--fontPrimary);
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.text-footer {
+  font-size: var(--font-medium);
+  color: #838383;
+}
+
+.footer {
+  position: block;
+  bottom: 0;
+  width: 100vw;
+  height: auto;
+  background-color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container-footer {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: auto;
+}
+
+.visible-scrollbar,
+.invisible-scrollbar,
+.mostly-customized-scrollbar {
+  display: block;
+  overflow: auto;
+}
+
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Para computadoras (ancho mayor a 1024px) */
+@media (min-width: 1025px) {
+  .btn-generate {
+    width: 55%;
+  }
+}
+/* Para tablets (entre 768px y 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .btn-generate {
+    width: 50%;
+  }
+}
+/* Para celulares (ancho menor a 768px) */
+@media (max-width: 767px) {
+  .text-alt {
+    display: none;
+  }
+  .copyright-footer {
+    display: none;
+  }
+
+  .container-footer {
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+  }
+
+  .btn-generate {
+    width: 40%;
+  }
+}

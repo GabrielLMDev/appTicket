@@ -1,0 +1,11 @@
+logs
+*.log
+npm-debug.log*
+firebase-debug.log*
+firebase-debug.*.log*
+.env
+public/firebase-tools-instant-win.exe
+
+public/.firebase
+public/.firebaserc
+public/firebase.json
