@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es-MX">
   <head>
-    <meta name="robots" content="noindex">
-    <meta name="googlebot" content="noindex">
+    <meta name="robots" content="noindex" />
+    <meta name="googlebot" content="noindex" />
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -249,18 +249,6 @@
               id="btnUpdate"
             >
               Actualizar Productos
-            </button>
-          </div>
-          <!-- Button Add Products-->
-          <div class="col-sm-6 col-md-6 col-lg-4 p-1">
-            <button
-              type="button"
-              class="btn btn-primary btn-generate w-100 h-100 d-flex align-items-center justify-content-center text-white"
-              id="btnAdd"
-              data-bs-toggle="modal"
-              data-bs-target="#modalNewProduct"
-            >
-              Agregar Productos
             </button>
           </div>
         </div>
@@ -551,15 +539,15 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
     <!-- Modal Accounts -->
     <div
       class="modal fade"
-      id="exampleModal"
+      id="dataAccount"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="dataAccount"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Editar Cuenta</h5>
+            <h5 class="modal-title">Editar Cuenta</h5>
             <button
               type="button"
               class="btn-close"
@@ -567,7 +555,7 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
               aria-label="Close"
             ></button>
           </div>
-          <form id="modalForm">
+          <form id="modalFormDataAccount">
             <div class="modal-body">
               <label for="idModal" class="form-label">ID</label>
               <span class="form-control" id="idModal"></span>
@@ -670,7 +658,7 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
       class="modal fade"
       id="modalProducts"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="modalProducts"
       aria-hidden="true"
     >
       <div class="modal-dialog">
@@ -730,91 +718,6 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
                 class="form-control"
                 id="availableModalProduct"
                 name="availableModalProduct"
-                placeholder="Ingresa el Estado"
-                required
-              />
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cerrar
-              </button>
-              <button type="submit" class="btn btn-primary">
-                Guardar Cambios
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal Add Products -->
-    <div
-      class="modal fade"
-      id="modalNewProduct"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Agregar Producto</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-
-          <form id="modalFormProductNew">
-            <div class="modal-body">
-              <label for="platformModalNewProduct" class="form-label"
-                >Plataforma</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="platformModalNewProduct"
-                name="platformModalNewProduct"
-                placeholder="Ingresa la plataforma"
-                required
-              />
-
-              <label for="priceModalNewProduct" class="form-label"
-                >Precio</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="priceModalNewProduct"
-                name="priceModalNewProduct"
-                placeholder="Ingresa el precio"
-                required
-              />
-
-              <label for="groupModalNewProduct" class="form-label">Grupo</label>
-              <input
-                type="text"
-                class="form-control"
-                id="groupModalNewProduct"
-                name="groupModalNewProduct"
-                placeholder="Ingresa el Grupo"
-                required
-              />
-
-              <label for="availableModalNewProduct" class="form-label"
-                >¿Disponible?</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="availableModalNewProduct"
-                name="availableModalNewProduct"
                 placeholder="Ingresa el Estado"
                 required
               />

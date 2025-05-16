@@ -13,30 +13,32 @@ const scriptURL =
 const API_URL = "https://apistreaming.gabriellmdev.com/api/prices";
 const SEARCH_BY_NUMBER_URL = "https://apistreaming.gabriellmdev.com/api/search/number";
 const SEARCH_BY_MAIL_URL = "https://apistreaming.gabriellmdev.com/api/search/mail";
+const UPDATE_APP_URL = "https://apistreaming.gabriellmdev.com/api/update";
 
 const textarea = document.getElementById("copyTextarea");
 const textareaTl = document.getElementById("copyTextareaTl");
+
 const warrantyDisplay = document.getElementById("warrantyDisplay");
 const changeDateStart = document.getElementById("startDate");
 const copyButton = document.getElementById("copyButton");
 const copyButtonTl = document.getElementById("copyButtonTl");
 const changeDateEnd = document.getElementById("endDate");
+
 const btnPrices = document.getElementById("btnPrices");
 const btnClean = document.getElementById("btnClean");
 const btnConsult = document.getElementById("btnConsult");
 const btnConsultMail = document.getElementById("btnConsultMail");
 const btnUpdate = document.getElementById("btnUpdate");
-const btnAdd = document.getElementById("btnAdd");
+
 const searchUserForm = document.getElementById("searchUser");
 const searchMailForm = document.getElementById("searchMail");
-const accountsUserTable = document.getElementById("accountsUserTable");
+
 const divSearch = document.getElementById("divSearch");
 const divSearchMail = document.getElementById("divSearchMail");
 const divProducts = document.getElementById("divProducts");
-const modalForm = document.getElementById("modalForm");
-const modalFormProductNew = document.getElementById("modalFormProductNew");
+
+const modalFormDataAccount = document.getElementById("modalFormDataAccount");
 const modalFormProductUpdate = document.getElementById("modalFormProductUpdate");
-const modalNewProduct = document.getElementById("modalNewProduct");
 
 //GLOBAL VARIABLES//
 let filteredData;
@@ -243,10 +245,6 @@ btnUpdate.addEventListener("click", async (event) => {
     }
 });
 
-btnAdd.addEventListener("click", async (event) => {
-
-});
-
 searchUserForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     let row = "";
@@ -275,7 +273,7 @@ searchInput.addEventListener('paste', (event) => {
     searchInput.value = pastedData;
 });
 
-modalForm.addEventListener("submit", async (e) => {
+modalFormDataAccount.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const loaderOverlay = document.getElementById('loaderOverlay');
@@ -325,7 +323,7 @@ modalForm.addEventListener("submit", async (e) => {
         if (result.success) {
             console.log("Datos -> " + filteredData + "\n Enviados a Sheets");
             // Cerrar el modal
-            const modalElement = document.getElementById('exampleModal');
+            const modalElement = document.getElementById('dataAccount');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
 
@@ -335,41 +333,6 @@ modalForm.addEventListener("submit", async (e) => {
         } else {
             alert("Error al enviar datos: " + result.error);
         }
-    } catch (error) {
-        alert("Error de conexión: " + error.message);
-    } finally {
-        loaderOverlay.style.display = 'none'; // Ocultar el loader una vez completado
-    }
-});
-
-modalFormProductNew.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const loaderOverlay = document.getElementById('loaderOverlay');
-    loaderOverlay.style.display = 'flex'; // Mostrar el loader en pantalla completa
-
-    const idModalProduct = document.getElementById("idModalProduct").innerHTML;
-    const platformModalProduct = document.getElementById("platformModalProduct").value;
-    const priceModalProduct = document.getElementById("priceModalProduct").value;
-    const groupModalProduct = document.getElementById("groupModalProduct").value;
-    const availableModalProduct = document.getElementById("availableModalProduct").value;
-
-    try {
-        await setDoc(doc(db, "apps", idModalProduct), {
-            name: platformModalProduct,
-            group: groupModalProduct,
-            price: priceModalProduct,
-            available: availableModalProduct == "true" ? true : false
-        });
-        // Cerrar el modal
-        const modalElement = document.getElementById('modalProducts');
-        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
-
-        // Eliminar manualmente cualquier backdrop si persiste
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(backdrop => backdrop.remove());
-
     } catch (error) {
         alert("Error de conexión: " + error.message);
     } finally {
@@ -390,21 +353,44 @@ modalFormProductUpdate.addEventListener("submit", async (e) => {
     const availableModalProduct = document.getElementById("availableModalProduct").value;
 
     try {
-        await setDoc(doc(db, "apps", idModalProduct), {
-            name: platformModalProduct,
-            group: groupModalProduct,
-            price: priceModalProduct,
-            available: availableModalProduct == "true" ? true : false
-        });
-        // Cerrar el modal
-        const modalElement = document.getElementById('modalProducts');
-        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
+        fetch(UPDATE_APP_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                dataApp: {
+                    idProduct: idModalProduct,
+                    name: platformModalProduct,
+                    group: groupModalProduct,
+                    price: priceModalProduct,
+                    available: availableModalProduct == "true" ? true : false,
+                    reseller: null,
+                    src: null,
+                    tag: null,
+                    id: null
+                }
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Respuesta del servidor:', data);
+                if (data.success === true) {
+                    // Cerrar el modal
+                    const modalElement = document.getElementById('modalProducts');
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
 
-        // Eliminar manualmente cualquier backdrop si persiste
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(backdrop => backdrop.remove());
+                    // Eliminar manualmente cualquier backdrop si persiste
+                    const backdrops = document.querySelectorAll('.modal-backdrop');
+                    backdrops.forEach(backdrop => backdrop.remove());
 
+                    alert("App Actualizada");
+                }
+            })
+            .catch(error => {
+                console.error('Error al enviar la solicitud:', error);
+            })
     } catch (error) {
         alert("Error de conexión: " + error.message);
     } finally {
@@ -412,39 +398,6 @@ modalFormProductUpdate.addEventListener("submit", async (e) => {
     }
 });
 
-modalNewProduct.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const loaderOverlay = document.getElementById('loaderOverlay');
-    loaderOverlay.style.display = 'flex'; // Mostrar el loader en pantalla completa
-
-    const platformModalProduct = document.getElementById("platformModalNewProduct").value;
-    const priceModalProduct = document.getElementById("priceModalNewProduct").value;
-    const groupModalProduct = document.getElementById("groupModalNewProduct").value;
-    const availableModalProduct = document.getElementById("availableModalNewProduct").value;
-
-    try {
-        const docRef = await addDoc(collection(db, "apps"), {
-            name: platformModalProduct,
-            group: groupModalProduct,
-            price: priceModalProduct,
-            available: availableModalProduct == "true" ? true : false
-        });
-        // Cerrar el modal
-        const modalElement = document.getElementById('modalNewProduct');
-        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
-
-        // Eliminar manualmente cualquier backdrop si persiste
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(backdrop => backdrop.remove());
-
-    } catch (error) {
-        alert("Error de conexión: " + error.message);
-    } finally {
-        loaderOverlay.style.display = 'none'; // Ocultar el loader una vez completado
-    }
-});
 
 //FUNCTIONS//
 async function getAppsList() {
@@ -664,7 +617,7 @@ async function fetchGoogleSheetData(Input) {
                     <td>${row.pin}</td>
                     <td>${row.fechaInicio}</td>
                     <td>${row.fechaTermino}</td>
-                    <td><button class="btnGuarantee btn btn-success p-1 m-1" id="${row.id}" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
+                    <td><button class="btnGuarantee btn btn-success p-1 m-1" id="${row.id}" data-bs-toggle="modal" data-bs-target="#dataAccount">Editar</button>
                     <button class="btnGTicket btn btn-primary p-1 m-1" id="${row.id}">Ticket</button>
                     <button class="btnSend btn btn-primary p-1 m-1" id="${row.id}">Enviar</button></td>
                 `;
@@ -802,7 +755,7 @@ async function fetchGoogleSheetDataMail(Input) {
                     <td>${row.pin}</td>
                     <td>${row.fechaInicio}</td>
                     <td>${row.fechaTermino}</td>
-                    <td><button class="btnGuarantee btn btn-success p-1" id="${row.id}" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
+                    <td><button class="btnGuarantee btn btn-success p-1" id="${row.id}" data-bs-toggle="modal" data-bs-target="#dataAccount">Editar</button>
                     <button class="btnGTicket btn btn-primary p-1" id="${row.id}">Ticket</button>
                     <button class="btn btn-primary p-1" id="${row.id}">Enviar</button></td>
                 `;
