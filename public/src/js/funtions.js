@@ -4,16 +4,20 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 //GLOBAL CONSTANTS//
-export const pricesList = [];
+const pricesList = [];
+const diasPorMes = {
+    1: 25,
+    2: 55,
+    3: 80
+};
 const phoneInput = document.getElementById('phone');
 const form = document.getElementById("formTicket");
-const scriptURL =
-    "https://script.google.com/macros/s/AKfycbyEft1LHwTevg4NIHbelwAqiSWNEHkl6Iw677HS3KXr_8HT7NiMT_y7ioGRNmwKOniH/exec";
 
 const API_URL = "https://apistreaming.gabriellmdev.com/api/prices";
 const SEARCH_BY_NUMBER_URL = "https://apistreaming.gabriellmdev.com/api/search/number";
 const SEARCH_BY_MAIL_URL = "https://apistreaming.gabriellmdev.com/api/search/mail";
 const UPDATE_APP_URL = "https://apistreaming.gabriellmdev.com/api/update";
+const ADD_DATA = "https://apistreaming.gabriellmdev.com/api/send-data";
 
 const textarea = document.getElementById("copyTextarea");
 const textareaTl = document.getElementById("copyTextareaTl");
@@ -114,7 +118,7 @@ form.addEventListener("submit", async (e) => {
     console.log(filteredData);
 
     try {
-        const response = await fetch(scriptURL, {
+        const response = await fetch(ADD_DATA, {
             method: "POST",
             body: JSON.stringify(filteredData),
         });
@@ -203,7 +207,6 @@ btnUpdate.addEventListener("click", async (event) => {
     divSearchMail.style.display = "none";
     divSearch.style.display = "none";
     divProducts.style.display = "block"
-
     try {
         // Obtén el tbody de la tabla
         const productsTable = document.getElementById('productsTable');
@@ -211,9 +214,9 @@ btnUpdate.addEventListener("click", async (event) => {
         pricesList.forEach((app) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                    <th scope="row">${app.id}</th>
                     <td>${app.name}</td>
-                    <td>${app.price}</td>
+                    <td>$${app.price}</td>
+                    <td>$${app.reseller}</td>
                     <td>${app.group}</td>
                     <td>${app.available}</td>
                     <td><button class="btnUpdateProduct btn btn-success px-1 w-100" id="${app.id}" data-bs-toggle="modal" data-bs-target="#modalProducts">Editar</button></td>
@@ -231,8 +234,11 @@ btnUpdate.addEventListener("click", async (event) => {
                         document.getElementById("idModalProduct").innerHTML = selectedRow.id;
                         document.getElementById("platformModalProduct").value = selectedRow.name;
                         document.getElementById("priceModalProduct").value = selectedRow.price;
+                        document.getElementById("resellerModalProduct").value = selectedRow.reseller;
                         document.getElementById("groupModalProduct").value = selectedRow.group;
                         document.getElementById("availableModalProduct").value = selectedRow.available;
+                        document.getElementById("srcModalProduct").value = selectedRow.src;
+                        document.getElementById("tagModalProduct").value = selectedRow.tag;
                     } else {
                         console.log(`No se encontró ningún dato para el ID: ${buttonId}`);
                     }
@@ -309,7 +315,7 @@ modalFormDataAccount.addEventListener("submit", async (e) => {
     console.log(`${idModal} \n ${mailModal} \n ${profileModal} \n ${startDateModal} \n ${endDateModal}`);
 
     try {
-        const response = await fetch(scriptURL, {
+        const response = await fetch(ADD_DATA, {
             method: "POST",
             body: JSON.stringify(filteredData),
         });
@@ -351,6 +357,9 @@ modalFormProductUpdate.addEventListener("submit", async (e) => {
     const priceModalProduct = document.getElementById("priceModalProduct").value;
     const groupModalProduct = document.getElementById("groupModalProduct").value;
     const availableModalProduct = document.getElementById("availableModalProduct").value;
+    const resellerModalProduct = document.getElementById("resellerModalProduct").value;
+    const srcModalProduct = document.getElementById("srcModalProduct").value;
+    const tagModalProduct = document.getElementById("tagModalProduct").value;
 
     try {
         fetch(UPDATE_APP_URL, {
@@ -361,14 +370,14 @@ modalFormProductUpdate.addEventListener("submit", async (e) => {
             body: JSON.stringify({
                 dataApp: {
                     idProduct: idModalProduct,
+                    id: idModalProduct,
                     name: platformModalProduct,
                     group: groupModalProduct,
                     price: priceModalProduct,
                     available: availableModalProduct == "true" ? true : false,
-                    reseller: null,
-                    src: null,
-                    tag: null,
-                    id: null
+                    reseller: resellerModalProduct,
+                    src: srcModalProduct,
+                    tag: tagModalProduct,
                 }
             })
         })
@@ -432,6 +441,10 @@ async function getAppsList() {
                 price: doc.price,
                 available: doc.available,
                 group: doc.group,
+                reseller: doc.reseller,
+                src: doc.src,
+                tag: doc.tag,
+
             });
         });
 
@@ -930,4 +943,34 @@ function differenceDays(dateArgs1, dateArgs2) {
 
     // Convierte la diferencia a días
     return Math.floor(differenceMilliseconds / (1000 * 60 * 60 * 24));
+}
+
+// Cuando se selecciona un radio
+document.querySelectorAll('input[name="meses"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        const meses = parseInt(e.target.value);
+        const diasExtra = diasPorMes[meses];
+
+        const hoy = new Date();
+        const endDate = new Date(hoy);
+        endDate.setDate(hoy.getDate() + diasExtra);
+
+        const startISO = hoy.toISOString().split('T')[0];
+        const endISO = endDate.toISOString().split('T')[0];
+
+        changeDateStart.value = startISO;
+        changeDateEnd.value = endISO;
+
+        const startFormatted = formatToDDMMYYYY(startISO);
+        const endFormatted = formatToDDMMYYYY(endISO);
+
+        const dias = differenceDays(startFormatted, endFormatted);
+        warrantyDisplay.innerHTML = `Diferencia en días: ${dias}`;
+    });
+});
+
+// Convierte yyyy-mm-dd a dd/mm/yyyy
+function formatToDDMMYYYY(fechaISO) {
+    const [yyyy, mm, dd] = fechaISO.split('-');
+    return `${dd}/${mm}/${yyyy}`;
 }
