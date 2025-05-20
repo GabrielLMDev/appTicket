@@ -98,11 +98,11 @@ form.addEventListener("submit", async (e) => {
     const priceDisplay = document.getElementById('priceDisplay').innerText;
     const selectedPlatform = platform.options[platform.selectedIndex].text;
     const selectedProvider = provider.options[provider.selectedIndex].text;
-
+    let phone = data.phone;
     // Filtrar y reordenar los datos antes de enviarlos
     filteredData = {
         id: null,
-        phone: data.phone,
+        phone: phone.toString(),
         platform: selectedPlatform,
         mail: data.email,
         profile: data.profile,
@@ -120,7 +120,10 @@ form.addEventListener("submit", async (e) => {
     try {
         const response = await fetch(ADD_DATA, {
             method: "POST",
-            body: JSON.stringify(filteredData),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(filteredData)
         });
 
         // Verifica que la respuesta sea válida
