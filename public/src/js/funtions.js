@@ -18,6 +18,8 @@ const SEARCH_BY_NUMBER_URL = "https://apistreaming.gabriellmdev.com/api/search/n
 const SEARCH_BY_MAIL_URL = "https://apistreaming.gabriellmdev.com/api/search/mail";
 const UPDATE_APP_URL = "https://apistreaming.gabriellmdev.com/api/update";
 const ADD_DATA = "https://apistreaming.gabriellmdev.com/api/send-data";
+const UPDATE_DATA = "https://apistreaming.gabriellmdev.com/api/update-data";
+
 
 const textarea = document.getElementById("copyTextarea");
 const textareaTl = document.getElementById("copyTextareaTl");
@@ -300,53 +302,58 @@ modalFormDataAccount.addEventListener("submit", async (e) => {
     const priceModal = document.getElementById("priceModal").innerHTML;
     const passwordModal = document.getElementById("passwordModal").value;
 
-    console.log("Tipo de dato => " + typeof idModal);
-    filteredData = {
-        id: idModal,
-        phone: numberModal,
-        platform: platformModal,
-        mail: mailModal,
-        profile: profileModal,
-        pin: pinModal,
-        provider: providerModal,
-        startDate: startDateModal,
-        endDate: endDateModal,
-        price: priceModal,
-        password: passwordModal,
-    };
-    console.log("Filtered Data Modal: => " + filteredData);
-    console.log(`${idModal} \n ${mailModal} \n ${profileModal} \n ${startDateModal} \n ${endDateModal}`);
+    console.log("Tipo de dato del ID_MODAL => " + typeof idModal);
 
     try {
-        const response = await fetch(ADD_DATA, {
-            method: "POST",
-            body: JSON.stringify(filteredData),
+        const response = await fetch(UPDATE_DATA, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                updateData: {
+                    id: idModal,
+                    phone: numberModal,
+                    platform: platformModal,
+                    mail: mailModal,
+                    profile: profileModal,
+                    pin: pinModal,
+                    provider: providerModal,
+                    startDate: startDateModal,
+                    endDate: endDateModal,
+                    price: priceModal,
+                    password: passwordModal,
+                }
+            })
         });
-        // Verifica que la respuesta sea válida
-        if (!response.ok) {
-            console.log(response);
-            throw new Error("Error en la respuesta del servidor");
-        }
+
         const result = await response.json();
 
+        if (!response.ok) {
+            throw new Error("Error en la respuesta del servidor");
+        }
+
+        console.log('Respuesta del servidor:', result);
+
         if (result.success) {
-            console.log("Datos -> " + filteredData + "\n Enviados a Sheets");
-            // Cerrar el modal
+            console.log("Datos enviados a Sheets");
+            alert("Cuenta Actualizada");
+
             const modalElement = document.getElementById('dataAccount');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
 
-            // Eliminar manualmente cualquier backdrop si persiste
-            const backdrops = document.querySelectorAll('.modal-backdrop');
-            backdrops.forEach(backdrop => backdrop.remove());
+            document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
         } else {
             alert("Error al enviar datos: " + result.error);
         }
+
     } catch (error) {
         alert("Error de conexión: " + error.message);
     } finally {
-        loaderOverlay.style.display = 'none'; // Ocultar el loader una vez completado
+        loaderOverlay.style.display = 'none';
     }
+
 });
 
 modalFormProductUpdate.addEventListener("submit", async (e) => {
