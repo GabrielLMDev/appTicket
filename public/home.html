@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+  <head>
+    <meta name="robots" content="noindex" />
+    <meta name="googlebot" content="noindex" />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="profile" href="https://gmpg.org/xfn/11" />
+    <meta
+      name="description"
+      content="App Diseñada para Generar Tickets y Ordenes."
+    />
+    <meta name="author" content="Gabriel Mendez" />
+    <title>App Generador | GabrielLMDev</title>
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://firebasestorage.googleapis.com/v0/b/gabriellm-34067.appspot.com/o/favicon.ico?alt=media&token=b6804d55-8b10-4292-bba1-4c75541a7c43"
+    />
+    <link rel="canonical" href="https://gabriellmdev.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="App Ticket | GabrielLMDev" />
+    <meta
+      property="og:description"
+      content="Generar ordenes y registrarlas en la base de datos."
+    />
+    <meta property="og:url" content="https://gabriellmdev.com/" />
+    <meta property="og:site_name" content="GabrielLM" />
+    <meta
+      property="og:image"
+      content="https://firebasestorage.googleapis.com/v0/b/gabriellm-34067.appspot.com/o/BannerOGMeta.png?alt=media&token=e74a1881-6c69-4237-bea6-6e987d18fb1a"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link href="src/css/global-styles.css?1.0" rel="stylesheet" />
+    <link href="src/css/loader-style.css?1.0" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.min.css"
+      integrity="sha512-viZnJCMu1IKCniSdlMH+5f8c7mOlAjqg53E3ycTycIGTk+20PCDuszNiWMYZ+g2Vwzu40Qp5JDPjpB+NHT0Jzw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+
+  <body>
+    <div style="overflow: hidden">
+      <svg
+        preserveAspectRatio="none"
+        viewBox="0 0 1200 120"
+        xmlns="http://www.w3.org/2000/svg"
+        style="fill: #00afd5; width: 100%; height: 120px"
+      >
+        <path
+          d="M321.39 56.44c58-10.79 114.16-30.13 172-41.86 82.39-16.72 168.19-17.73 250.45-.39C823.78 31 906.67 72 985.66 92.83c70.05 18.48 146.53 26.09 214.34 3V0H0v27.35a600.21 600.21 0 00321.39 29.09z"
+        />
+      </svg>
+    </div>
+
+    <div class="container my-3 invisible-scrollbar">
+      <h2 class="mb-4">Generador de Ticket</h2>
+
+      <form id="formTicket">
+        <div class="row g-3">
+          <!-- Telefono -->
+          <div class="col-sm-5 col-md-5 col-lg-4">
+            <label for="phone" class="form-label">Telefono</label>
+            <input
+              type="number"
+              class="form-control"
+              id="phone"
+              name="phone"
+              placeholder="Ingresa el numero"
+              required
+            />
+          </div>
+          <!-- Correo -->
+          <div class="col-sm-7 col-md-7 col-lg-4">
+            <label for="email" class="form-label">Correo</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Ingresa el correo"
+              required
+            />
+          </div>
+          <!-- Contraseña -->
+          <div class="col-sm-6 col-md-5 col-lg-4">
+            <label for="password" class="form-label">Contraseña</label>
+            <input
+              type="text"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Ingresa la contraseña"
+              required
+            />
+          </div>
+          <!-- Perfil -->
+          <div class="col-sm-3 col-md-4 col-lg-4">
+            <label for="profile" class="form-label">Perfil</label>
+            <input
+              type="text"
+              class="form-control"
+              id="profile"
+              name="profile"
+              placeholder="Ingresa el perfil"
+              required
+            />
+          </div>
+          <!-- PIN -->
+          <div class="col-sm-3 col-md-3 col-lg-4">
+            <label for="pin" class="form-label">PIN</label>
+            <input
+              type="number"
+              class="form-control"
+              id="pin"
+              name="pin"
+              placeholder="Ingresa el PIN"
+              required
+            />
+          </div>
+          <!-- Plataforma -->
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <label for="platform" class="form-label">Plataforma</label>
+            <select class="form-select" id="platform" name="platform" required>
+              <option value selected disabled>Selecciona una plataforma</option>
+            </select>
+          </div>
+          <!-- Proveedor -->
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <label for="provider" class="form-label">Proveedor</label>
+            <select class="form-select" id="provider" name="provider" required>
+              <option value selected disabled>Selecciona proveedor</option>
+              <option value="INGE">INGE</option>
+            </select>
+          </div>
+          <!-- Fecha Inicio -->
+          <div class="col-sm-6 col-md-4 col-lg-4">
+            <label for="startDate" class="form-label">Fecha de Inicio</label>
+            <input
+              type="date"
+              class="form-control"
+              id="startDate"
+              name="startDate"
+            />
+          </div>
+          <!-- Fecha Termino -->
+          <div class="col-sm-6 col-md-4 col-lg-4">
+            <label for="endDate" class="form-label">Fecha de Término</label>
+            <input
+              type="date"
+              class="form-control"
+              id="endDate"
+              name="endDate"
+            />
+          </div>
+          <!-- PERIODO -->
+          <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="meses"
+                value="1"
+                id="c1"
+              />
+              <label class="form-check-label" for="c1">1 mes</label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="meses"
+                value="2"
+                id="c2"
+              />
+              <label class="form-check-label" for="c2">2 meses</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="meses"
+                value="3"
+                id="c3"
+              />
+              <label class="form-check-label" for="c3">3 meses</label>
+            </div>
+          </div>
+          <!-- Garantia -->
+          <div class="col-sm-6 col-md-4 col-lg-6">
+            <span
+              id="warrantyDisplay"
+              name="warrantyDisplay"
+              style="font-size: 1.2rem"
+            ></span>
+          </div>
+          <!-- Precios -->
+          <div class="col-sm-6 col-md-6 col-lg-6">
+            <p class="mb-0" style="font-size: 1.2rem">Precio:</p>
+            <span
+              id="priceDisplay"
+              name="priceDisplay"
+              class="mb-0"
+              style="font-size: 1.2rem"
+            ></span>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row mt-3">
+          <!-- Button Gen Order-->
+          <div class="col-sm-6 col-md-6 col-lg-4 p-1">
+            <button
+              type="submit"
+              class="btn btn-primary btn-generate w-100 h-100 d-flex align-items-center justify-content-center"
+              id="btnOrder"
+            >
+              Generar Orden
+            </button>
+          </div>
+          <!-- Button Consult by Number-->
+          <div class="col-sm-6 col-md-6 col-lg-4 p-1">
+            <button
+              type="button"
+              class="btn btn-primary btn-generate w-100 h-100 d-flex align-items-center justify-content-center"
+              id="btnConsult"
+            >
+              Consultar por Numero
+            </button>
+          </div>
+          <!-- Button Consult by Mail-->
+          <div class="col-sm-6 col-md-6 col-lg-4 p-1">
+            <button
+              type="button"
+              class="btn btn-primary btn-generate w-100 h-100 d-flex align-items-center justify-content-center"
+              id="btnConsultMail"
+            >
+              Consultar por Correo
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="row mt-3">
+        <!-- Button -->
+        <div class="col-sm-6 col-md-6 col-lg-4 p-1">
+          <button
+            type="button"
+            class="btn btn-success btn-generate w-100 h-100 d-flex align-items-center justify-content-center text-white"
+            id="btn_send_to_mail"
+          >
+            Enviar a correo
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <!-- Button Reload Products-->
+        <div class="col-sm-6 col-md-6 col-lg-4 p-1">
+          <button
+            type="button"
+            class="btn btn-warning btn-generate w-100 h-100 d-flex align-items-center justify-content-center text-white"
+            onclick="localStorage.removeItem('productosCache'); location.reload();"
+          >
+            Refrescar productos
+          </button>
+        </div>
+        <!-- Button Update Products-->
+        <div class="col-sm-6 col-md-6 col-lg-4 p-1">
+          <button
+            type="button"
+            class="btn btn-warning btn-generate w-100 h-100 d-flex align-items-center justify-content-center text-white"
+            id="btnUpdate"
+          >
+            Actualizar Productos
+          </button>
+        </div>
+        <!-- Button Add Product-->
+        <div class="col-sm-6 col-md-6 col-lg-4 p-1">
+          <button
+            type="button"
+            id="btn_add_product"
+            class="btn btn-warning btn-generate w-100 h-100 d-flex align-items-center justify-content-center text-white"
+          >
+            Agregar producto
+          </button>
+        </div>
+      </div>
+
+      <!-- From Uiverse.io by vinodjangid07 -->
+      <div id="loaderOverlay" class="loader-overlay" style="display: none">
+        <div class="loader">
+          <div class="truckWrapper">
+            <div class="truckBody">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 198 93"
+                class="trucksvg"
+              >
+                <path
+                  stroke-width="3"
+                  stroke="#282828"
+                  fill="#F83D3D"
+                  d="M135 22.5H177.264C178.295 22.5 179.22 23.133 179.594 24.0939L192.33 56.8443C192.442 57.1332 192.5 57.4404 192.5 57.7504V89C192.5 90.3807 191.381 91.5 190 91.5H135C133.619 91.5 132.5 90.3807 132.5 89V25C132.5 23.6193 133.619 22.5 135 22.5Z"
+                ></path>
+                <path
+                  stroke-width="3"
+                  stroke="#282828"
+                  fill="#7D7C7C"
+                  d="M146 33.5H181.741C182.779 33.5 183.709 34.1415 184.078 35.112L190.538 52.112C191.16 53.748 189.951 55.5 188.201 55.5H146C144.619 55.5 143.5 54.3807 143.5 53V36C143.5 34.6193 144.619 33.5 146 33.5Z"
+                ></path>
+                <path
+                  stroke-width="2"
+                  stroke="#282828"
+                  fill="#282828"
+                  d="M150 65C150 65.39 149.763 65.8656 149.127 66.2893C148.499 66.7083 147.573 67 146.5 67C145.427 67 144.501 66.7083 143.873 66.2893C143.237 65.8656 143 65.39 143 65C143 64.61 143.237 64.1344 143.873 63.7107C144.501 63.2917 145.427 63 146.5 63C147.573 63 148.499 63.2917 149.127 63.7107C149.763 64.1344 150 64.61 150 65Z"
+                ></path>
+                <rect
+                  stroke-width="2"
+                  stroke="#282828"
+                  fill="#FFFCAB"
+                  rx="1"
+                  height="7"
+                  width="5"
+                  y="63"
+                  x="187"
+                ></rect>
+                <rect
+                  stroke-width="2"
+                  stroke="#282828"
+                  fill="#282828"
+                  rx="1"
+                  height="11"
+                  width="4"
+                  y="81"
+                  x="193"
+                ></rect>
+                <rect
+                  stroke-width="3"
+                  stroke="#282828"
+                  fill="#DFDFDF"
+                  rx="2.5"
+                  height="90"
+                  width="121"
+                  y="1.5"
+                  x="6.5"
+                ></rect>
+                <rect
+                  stroke-width="2"
+                  stroke="#282828"
+                  fill="#DFDFDF"
+                  rx="2"
+                  height="4"
+                  width="6"
+                  y="84"
+                  x="1"
+                ></rect>
+              </svg>
+            </div>
+            <div class="truckTires">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 30 30"
+                class="tiresvg"
+              >
+                <circle
+                  stroke-width="3"
+                  stroke="#282828"
+                  fill="#282828"
+                  r="13.5"
+                  cy="15"
+                  cx="15"
+                ></circle>
+                <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 30 30"
+                class="tiresvg"
+              >
+                <circle
+                  stroke-width="3"
+                  stroke="#282828"
+                  fill="#282828"
+                  r="13.5"
+                  cy="15"
+                  cx="15"
+                ></circle>
+                <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
+              </svg>
+            </div>
+            <div class="road"></div>
+
+            <svg
+              xml:space="preserve"
+              viewBox="0 0 453.459 453.459"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              xmlns="http://www.w3.org/2000/svg"
+              id="Capa_1"
+              version="1.1"
+              fill="#000000"
+              class="lampPost"
+            >
+              <path
+                d="M252.882,0c-37.781,0-68.686,29.953-70.245,67.358h-6.917v8.954c-26.109,2.163-45.463,10.011-45.463,19.366h9.993
+c-1.65,5.146-2.507,10.54-2.507,16.017c0,28.956,23.558,52.514,52.514,52.514c28.956,0,52.514-23.558,52.514-52.514
+c0-5.478-0.856-10.872-2.506-16.017h9.992c0-9.354-19.352-17.204-45.463-19.366v-8.954h-6.149C200.189,38.779,223.924,16,252.882,16
+c29.952,0,54.32,24.368,54.32,54.32c0,28.774-11.078,37.009-25.105,47.437c-17.444,12.968-37.216,27.667-37.216,78.884v113.914
+h-0.797c-5.068,0-9.174,4.108-9.174,9.177c0,2.844,1.293,5.383,3.321,7.066c-3.432,27.933-26.851,95.744-8.226,115.459v11.202h45.75
+v-11.202c18.625-19.715-4.794-87.527-8.227-115.459c2.029-1.683,3.322-4.223,3.322-7.066c0-5.068-4.107-9.177-9.176-9.177h-0.795
+V196.641c0-43.174,14.942-54.283,30.762-66.043c14.793-10.997,31.559-23.461,31.559-60.277C323.202,31.545,291.656,0,252.882,0z
+M232.77,111.694c0,23.442-19.071,42.514-42.514,42.514c-23.442,0-42.514-19.072-42.514-42.514c0-5.531,1.078-10.957,3.141-16.017
+h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Container Search by Number-->
+    <div
+      class="container pb-3 invisible-scrollbar"
+      style="display: none"
+      id="divSearch"
+    >
+      <h2 class="text-center mt-3">Buscar Compras por Numero</h2>
+      <form id="search_service_by_number">
+        <div class="mb-3">
+          <label for="searchInput" class="form-label"
+            >¿Qué estás buscando?</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="searchInput"
+            name="searchInput"
+            placeholder="Buscar..."
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary search-btn w-100"
+          id="btnSearchByNumber"
+        >
+          Buscar
+        </button>
+      </form>
+    </div>
+
+    <!-- Container Search by Mail-->
+    <div
+      class="container pb-3 invisible-scrollbar"
+      style="display: none"
+      id="divSearchMail"
+    >
+      <h2 class="text-center mt-3">Buscar Compras por Correo</h2>
+      <form id="search_service_by_mail">
+        <div class="mb-3">
+          <label for="searchInput" class="form-label"
+            >¿Qué estás buscando?</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="searchMailInput"
+            name="searchMailInput"
+            placeholder="Buscar..."
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary search-btn w-100"
+          id="btnSearchByMail"
+        >
+          Buscar
+        </button>
+      </form>
+    </div>
+
+    <div class="container search-form table-responsive text-center">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Numero</th>
+            <th scope="col">Cuenta</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Perfil</th>
+            <th scope="col">Pin</th>
+            <th scope="col">Inicio</th>
+            <th scope="col">Final</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>
+        <tbody id="services_table"></tbody>
+      </table>
+    </div>
+
+    <!-- Container Products-->
+    <div
+      class="pb-3 px-5 invisible-scrollbar text-dark"
+      style="display: none"
+      id="divProducts"
+    >
+      <h2 class="text-center mt-3">Actualizar Productos</h2>
+      <div class="search-form table-responsive">
+        <table class="table text-center">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Producto</th>
+              <th scope="col">Precio Normal</th>
+              <th scope="col">Precio Revendedor</th>
+              <th scope="col">Grupo</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Funciones</th>
+            </tr>
+          </thead>
+          <tbody id="productsTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modal Accounts -->
+    <div
+      class="modal fade"
+      id="dataAccount"
+      tabindex="-1"
+      aria-labelledby="dataAccount"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Cuenta</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <form id="modalFormDataAccount">
+            <div class="modal-body">
+              <label for="idModal" class="form-label">ID</label>
+              <span class="form-control" id="idModal"></span>
+
+              <label for="numberModal" class="form-label">Numero</label>
+              <span class="form-control" id="numberModal"></span>
+
+              <label for="platformModal" class="form-label">Plataforma</label>
+              <span class="form-control" id="platformModal"></span>
+
+              <label for="mailModal" class="form-label">Correo</label>
+              <input
+                type="email"
+                class="form-control"
+                id="mailModal"
+                name="mailModal"
+                placeholder="Ingresa el correo"
+                required
+              />
+
+              <label for="profileModal" class="form-label">Perfil</label>
+              <input
+                type="text"
+                class="form-control"
+                id="profileModal"
+                name="profileModal"
+                placeholder="Ingresa el Perfil"
+                required
+              />
+
+              <label for="pinModal" class="form-label">Pin</label>
+              <input
+                type="text"
+                class="form-control"
+                id="pinModal"
+                name="pinModal"
+                placeholder="Ingresa el Pin"
+                required
+              />
+
+              <label for="providerModal" class="form-label">Proveedor</label>
+              <span class="form-control" id="providerModal"></span>
+
+              <label for="startDateModal" class="form-label mt-2"
+                >Fecha de Inicio</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="startDateModal"
+                name="startDateModal"
+                placeholder="Ingresa la Fecha de Inicio"
+                required
+              />
+
+              <label for="endDateModal" class="form-label mt-2"
+                >Fecha de Termino</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="endDateModal"
+                name="endDateModal"
+                placeholder="Ingresa la Fecha de Termino"
+                required
+              />
+
+              <label for="priceModal" class="form-label">Importe</label>
+              <span class="form-control" id="priceModal"></span>
+
+              <label for="passwordModal" class="form-label">Contraseña</label>
+              <input
+                type="text"
+                class="form-control"
+                id="passwordModal"
+                name="passwordModal"
+                placeholder="Ingresa la contraseña"
+                required
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cerrar
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Guardar Cambios
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Producto -->
+    <div
+      class="modal fade"
+      id="modal_Product_Actions"
+      tabindex="-1"
+      aria-labelledby="modal_Product_Actions"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <input type="hidden" id="action_form" />
+          <form id="form_Actions_App">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalProductoLabel"></h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+            <div class="modal-body" id="modalProductoBody">
+              <!-- Campos dinámicos -->
+              <input type="hidden" id="id_app" />
+              <div class="d-flex align-items-baseline mb-3">
+                <label for="name_app" class="form-label">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control mx-2"
+                  id="name_app"
+                  required
+                />
+              </div>
+              <div class="d-flex align-items-baseline mb-3">
+                <label for="price_app" class="form-label">Precio</label>
+                <input
+                  type="text"
+                  class="form-control mx-2"
+                  id="price_app"
+                  required
+                />
+              </div>
+              <div class="d-flex align-items-baseline mb-3">
+                <label for="group_app" class="form-label">Grupo</label>
+                <input type="text" class="form-control mx-2" id="group_app" />
+              </div>
+              <div class="d-flex align-items-baseline mb-3">
+                <label for="available_app" class="form-label"
+                  >¿Disponible?</label
+                >
+                <select
+                  name="available_app"
+                  id="available_app"
+                  class="form-control mx-2"
+                >
+                  <option value="true">TRUE</option>
+                  <option value="false">FALSE</option>
+                </select>
+              </div>
+              <div class="d-flex align-items-baseline mb-3">
+                <label for="reseller_app" class="form-label"
+                  >Precio Reventa</label
+                >
+                <input
+                  type="text"
+                  class="form-control mx-2"
+                  id="reseller_app"
+                />
+              </div>
+              <div class="d-flex align-items-baseline mb-3">
+                <label for="tag_app" class="form-label">TAG</label>
+                <input type="text" class="form-control mx-2" id="tag_app" />
+              </div>
+              <div class="d-flex align-items-baseline mb-3">
+                <label for="src_app" class="form-label">Imagen</label>
+                <input type="text" class="form-control mx-2" id="src_app" />
+              </div>
+            </div>
+            <div class="modal-footer" id="modalProductoFooter">
+              <div class="modal-footer">
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                  id="form_main_btn"
+                >
+                  Enviar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="Modal_SEND"
+      tabindex="-1"
+      aria-labelledby="Modal_SEND"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="Modal_SEND_Label">Cuenta Registrada</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            ¿Deseas enviar al numero?
+            <span id="number_user"></span>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              No enviar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="btn_send_ws"
+            >
+              Enviar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="overflow: hidden">
+      <svg
+        preserveAspectRatio="none"
+        viewBox="0 0 1200 120"
+        xmlns="http://www.w3.org/2000/svg"
+        style="
+          fill: #00afd5;
+          width: 100%;
+          height: 72px;
+          transform: rotate(180deg);
+        "
+      >
+        <path
+          d="M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z"
+          opacity=".25"
+        />
+        <path
+          d="M0 0v15.81c13 21.11 27.64 41.05 47.69 56.24C99.41 111.27 165 111 224.58 91.58c31.15-10.15 60.09-26.07 89.67-39.8 40.92-19 84.73-46 130.83-49.67 36.26-2.85 70.9 9.42 98.6 31.56 31.77 25.39 62.32 62 103.63 73 40.44 10.79 81.35-6.69 119.13-24.28s75.16-39 116.92-43.05c59.73-5.85 113.28 22.88 168.9 38.84 30.2 8.66 59 6.17 87.09-7.5 22.43-10.89 48-26.93 60.65-49.24V0z"
+          opacity=".5"
+        />
+        <path
+          d="M0 0v5.63C149.93 59 314.09 71.32 475.83 42.57c43-7.64 84.23-20.12 127.61-26.46 59-8.63 112.48 12.24 165.56 35.4C827.93 77.22 886 95.24 951.2 90c86.53-7 172.46-45.71 248.8-84.81V0z"
+        />
+      </svg>
+    </div>
+
+    <script type="module" src="src/js/apps.js"></script>
+    <script type="module" src="src/js/services.js"></script>
+    <script src="src/js/auth/protect.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mdb-ui-kit@9.1.0/js/mdb.umd.min.js"></script>
+    <script src="src/js/funtions.js?v=1.2.2" type="module"></script>
+    <script src="src/js/functions_ws.js?v=1.0"></script>
+  </body>
+</html>
