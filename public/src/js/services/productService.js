@@ -1,5 +1,5 @@
-/* const API_BASE = 'https://apiartesanias-production.up.railway.app/api/apps'; */
-const API_BASE = "http://localhost:3000/api/apps";
+const API_BASE = 'https://main.gabriellmdev.com/api/apps';
+/* const API_BASE = "http://localhost:3000/api/apps"; */
 
 function getToken() {
     return localStorage.getItem("token");
@@ -92,7 +92,7 @@ export async function deleteProduct(id) {
 
 export function buildProductObject(form) {
     return {
-        available: form.available_app.value.trim(),
+        available: form.available_app.value.trim().toLowerCase() === "true", // Asegura que devuelva un booleano
         group: form.group_app.value.trim(),
         name: form.name_app.value.trim(),
         price: form.price_app.value.trim(),

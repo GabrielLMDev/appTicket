@@ -74,6 +74,7 @@ setOrder.addEventListener("submit", async (e) => {
         const response = await setService(filteredData);
 
         if (response.status) {
+            console.log(response);
             const myModal = new bootstrap.Modal('#Modal_SEND', {
                 keyboard: false
             })

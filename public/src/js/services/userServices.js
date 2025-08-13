@@ -1,5 +1,5 @@
-/* const API_BASE = 'https://apiartesanias-production.up.railway.app/api/apps'; */
-const API_BASE = "http://localhost:3000/api/services";
+const API_BASE = 'https://main.gabriellmdev.com/api/services';
+/* const API_BASE = "http://localhost:3000/api/services"; */
 
 function getToken() {
     return localStorage.getItem("token");

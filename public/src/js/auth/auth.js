@@ -1,5 +1,5 @@
-const authURL_PRODUCTION = "https://apiartesanias-production.up.railway.app/api/auth/login";
-const authURL_DEV = "http://localhost:3000/api/auth/login";
+const API_BASE = 'https://main.gabriellmdev.com/api/auth/login';
+/* const API_BASE = "http://localhost:3000/api/auth/login"; */
 
 document.getElementById("loginForm").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -11,7 +11,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     const password = document.getElementById("password").value.trim();
 
     try {
-        const res = await fetch(authURL_DEV, {
+        const res = await fetch(API_BASE, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ user, password }),

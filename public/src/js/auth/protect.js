@@ -1,12 +1,12 @@
-const protectURL_PRODUCTION = "https://apiartesanias-production.up.railway.app/api/auth/verify";
-const protectURL_DEV = "http://localhost:3000/api/auth/verify";
+const API_BASE = 'https://main.gabriellmdev.com/api/auth/verify';
+/* const API_BASE = "http://localhost:3000/api/auth/verify"; */
 
 (async function validateToken() {
     const token = localStorage.getItem("token");
     if (!token) return window.location.href = "index.html";
 
     try {
-        const res = await fetch(protectURL_DEV, {
+        const res = await fetch(API_BASE, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
