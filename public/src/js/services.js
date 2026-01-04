@@ -74,6 +74,32 @@ setOrder.addEventListener("submit", async (e) => {
         const response = await setService(filteredData);
 
         if (response.status) {
+
+            const isNew = true;
+
+            const isComplete = filteredData.profile == "COMPLETA" ? `\n\n‼️ *ACCESO A TODOS LOS PERFILES Y PARA 10 O MÁS DISPOSITIVOS* ‼️` : `\n\n‼️ *ACCESO ÚNICAMENTE PARA UN PERFIL Y UN DISPOSITIVO* ‼️`
+            const BODY_MSG = `> ⓘ Si quieres contratar, hacer una aclaración o reportar tu servicio, envíame un mensaje. 👉5538495677\n\n${isNew == true ? "" : "*REPOSICIÓN*\n\n"}`
+                + `${setEmojiTittle(new Date())} *${filteredData.platform}* ${setEmojiTittle(new Date())}`
+                + `\n\n📧 *Correo:* ${filteredData.mail}`
+                + `\n🔑 *Contraseña:* ${filteredData.password === "NO DISPONIBLE" ? "~NO DISPONIBLE~" : filteredData.password}`
+                + `\n🔐 *PIN:* ${filteredData.pin === "1" ? "NINGUNO" : filteredData.pin === "0" ? "NINGUNO" : filteredData.pin}`
+                + `\n🙋‍♂️ *PERFIL:* ${filteredData.profile}`
+                + `${isComplete}`
+                + `\n\n📅 Fecha de activación: ${filteredData.startDate}`
+                + `\n📅 Vence el: ${filteredData.endDate}`
+                + `\n\n✅ *GARANTÍA DE ${filteredData.warranty} DÍAS* ✅`
+                + `\n\n*CUENTAS STREAMING "EL INGE", GRACIAS POR TU PREFERENCIA.*`
+                + `\n\n_Únete a mi grupo de WhatsApp y no te pierdas promociones y precios exclusivos._`
+                + `\n👉 https://chat.whatsapp.com/HirlEy7VgIr2FI5doSMGHL`;
+
+            /*             try {
+                            await navigator.clipboard.writeText(BODY_MSG);
+                            console.log('Contenido copiado al portapapeles');
+                        } catch (err) {
+                            console.error('Error al copiar: ', err);
+                        } */
+
+
             console.log(response);
             const myModal = new bootstrap.Modal('#Modal_SEND', {
                 keyboard: false
@@ -96,6 +122,7 @@ setOrder.addEventListener("submit", async (e) => {
                     alert(`Cuenta Agregada y Mensaje NO Enviado`);
                 }
             });
+
         } else {
             alert(`${response.message}`);
         }
@@ -299,6 +326,30 @@ async function renderServices(data) {
                         password: selectedRow.password,
                     }
                     const isNew = true;
+
+                    const isComplete = dataService.profile == "COMPLETA" ? `\n\n‼️ *ACCESO A TODOS LOS PERFILES Y PARA 10 O MÁS DISPOSITIVOS* ‼️` : `\n\n‼️ *ACCESO ÚNICAMENTE PARA UN PERFIL Y UN DISPOSITIVO* ‼️`
+                    const BODY_MSG = `> ⓘ Si quieres contratar, hacer una aclaración o reportar tu servicio, envíame un mensaje. 👉5538495677\n\n${isNew == true ? "" : "*REPOSICIÓN*\n\n"}`
+                        + `${setEmojiTittle(new Date())} *${dataService.platform}* ${setEmojiTittle(new Date())}`
+                        + `\n\n📧 *Correo:* ${dataService.mail}`
+                        + `\n🔑 *Contraseña:* ${dataService.password === "NO DISPONIBLE" ? "~NO DISPONIBLE~" : dataService.password}`
+                        + `\n🔐 *PIN:* ${dataService.pin === "1" ? "NINGUNO" : dataService.pin === "0" ? "NINGUNO" : dataService.pin}`
+                        + `\n🙋‍♂️ *PERFIL:* ${dataService.profile}`
+                        + `${isComplete}`
+                        + `\n\n📅 Fecha de activación: ${dataService.startDate}`
+                        + `\n📅 Vence el: ${dataService.endDate}`
+                        + `\n\n✅ *GARANTÍA DE ${dataService.warranty} DÍAS* ✅`
+                        + `\n\n*CUENTAS STREAMING "EL INGE", GRACIAS POR TU PREFERENCIA.*`
+                        + `\n\n_Únete a mi grupo de WhatsApp y no te pierdas promociones y precios exclusivos._`
+                        + `\n👉 https://chat.whatsapp.com/HirlEy7VgIr2FI5doSMGHL`;
+
+                    /*           try {
+                                  await navigator.clipboard.writeText(BODY_MSG);
+                                  console.log('Contenido copiado al portapapeles');
+                              } catch (err) {
+                                  console.error('Error al copiar: ', err);
+                              }
+           */
+
                     const result = await sendService(isNew, dataService.number, dataService, dataService.profile);
                     if (result.success) {
                         alert("ENVIADO CORRECTAMENTE");
@@ -333,6 +384,30 @@ async function renderServices(data) {
                         password: selectedRow.password,
                     }
                     const isNew = false;
+
+                    const isComplete = dataService.profile == "COMPLETA" ? `\n\n‼️ *ACCESO A TODOS LOS PERFILES Y PARA 10 O MÁS DISPOSITIVOS* ‼️` : `\n\n‼️ *ACCESO ÚNICAMENTE PARA UN PERFIL Y UN DISPOSITIVO* ‼️`
+                    const BODY_MSG = `> ⓘ Si quieres contratar, hacer una aclaración o reportar tu servicio, envíame un mensaje. 👉5538495677\n\n${isNew == true ? "" : "*REPOSICIÓN*\n\n"}`
+                        + `${setEmojiTittle(new Date())} *${dataService.platform}* ${setEmojiTittle(new Date())}`
+                        + `\n\n📧 *Correo:* ${dataService.mail}`
+                        + `\n🔑 *Contraseña:* ${dataService.password === "NO DISPONIBLE" ? "~NO DISPONIBLE~" : dataService.password}`
+                        + `\n🔐 *PIN:* ${dataService.pin === "1" ? "NINGUNO" : dataService.pin === "0" ? "NINGUNO" : dataService.pin}`
+                        + `\n🙋‍♂️ *PERFIL:* ${dataService.profile}`
+                        + `${isComplete}`
+                        + `\n\n📅 Fecha de activación: ${dataService.startDate}`
+                        + `\n📅 Vence el: ${dataService.endDate}`
+                        + `\n\n✅ *GARANTÍA DE ${dataService.warranty} DÍAS* ✅`
+                        + `\n\n*CUENTAS STREAMING "EL INGE", GRACIAS POR TU PREFERENCIA.*`
+                        + `\n\n_Únete a mi grupo de WhatsApp y no te pierdas promociones y precios exclusivos._`
+                        + `\n👉 https://chat.whatsapp.com/HirlEy7VgIr2FI5doSMGHL`;
+
+                    /*        try {
+                               await navigator.clipboard.writeText(BODY_MSG);
+                               console.log('Contenido copiado al portapapeles');
+                           } catch (err) {
+                               console.error('Error al copiar: ', err);
+                           } */
+
+
                     const result = await sendService(isNew, dataService.number, dataService, dataService.profile);
                     if (result.success) {
                         alert("ENVIADO CORRECTAMENTE");
@@ -367,4 +442,23 @@ function differenceDays(dateArgs1, dateArgs2) {
 
     // Convierte la diferencia a días
     return Math.floor(differenceMilliseconds / (1000 * 60 * 60 * 24));
+}
+
+function setEmojiTittle(date) {
+    const month = new Date(date).getMonth();
+    switch (month) {
+        case 0: return "🎉🇲🇽";
+        case 1: return "💘🎎";
+        case 2: return "🌸🙏";
+        case 3: return "🐣✝️";
+        case 4: return "🎊🇲🇽";
+        case 5: return "🎓👨‍🎓";
+        case 6: return "🌞🏖️";
+        case 7: return "🌽🎭";
+        case 8: return "🇲🇽🎉";
+        case 9: return "💀🕯️";
+        case 10: return "🕯️💀";
+        case 11: return "🎄🧑‍🎄";
+        default: return "🌞";
+    }
 }

@@ -11,6 +11,7 @@ const changeDateEnd = document.getElementById("endDate");
 
 const btnConsult = document.getElementById("btnConsult");
 const btnConsultMail = document.getElementById("btnConsultMail");
+const btn_renew_rev = document.getElementById("btn_renew_rev");
 
 const divSearch = document.getElementById("divSearch");
 const divSearchMail = document.getElementById("divSearchMail");
@@ -65,6 +66,10 @@ btnConsultMail.addEventListener("click", (event) => {
     divSearch.style.display = "none"
     divProducts.style.display = "none"
 });
+
+btn_renew_rev.addEventListener("click", (event) => {
+window.location.href = "renew.html";
+})
 
 searchInput.addEventListener('paste', (event) => {
 
